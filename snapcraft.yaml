@@ -1,0 +1,64 @@
+name: zenity-part
+version: current
+summary: Display a simple dialog for your snap
+description: |
+  This remote part features a build of the zenity dialog program, for depending part to display a dialog like snap deprecation, etc.
+
+  Refer the following forum topic for more info:
+
+    Zenity dialogs in a snap - snap - snapcraft.io
+    https://forum.snapcraft.io/t/zenity-dialogs-in-a-snap/6359
+
+grade: devel
+confinement: devmode
+
+apps:
+  zenity-part:
+    command: >
+      desktop-launch
+      zenity --info --text='Hello Zenity from a snap!'
+
+plugs:
+  desktop:
+  desktop-legacy:
+  unity7:
+  wayland:
+  x11:
+
+parts:
+  desktop-gtk3:
+
+  patches:
+    source: patches
+    plugin: dump
+    organize:
+      '*': patches/
+
+  zenity:
+    after:
+    - patches
+
+    source: https://gitlab.gnome.org/GNOME/zenity.git
+    source-tag: 3.28.1
+    source-depth: 1
+    plugin: autotools
+    configflags:
+    - --disable-libnotify
+    - --disable-webkitgtk
+    build-packages:
+    - gnome-pkg-tools
+    - gnome-common
+    - yelp-tools
+    - gettext
+    - libglib2.0-dev
+    - libgtk-3-dev
+    override-build: |
+      set \
+        -o errexit \
+        -o nounset
+
+      patch \
+        --strip=1 \
+        < "${SNAPCRAFT_STAGE}"/patches/zenity-ui-snap-aware.patch
+
+      snapcraftctl build
