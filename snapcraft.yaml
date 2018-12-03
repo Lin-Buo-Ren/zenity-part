@@ -16,7 +16,11 @@ apps:
   zenity-part:
     command: >
       desktop-launch
-      zenity --info --text='Hello Zenity from a snap!'
+      zenity
+        --info
+        --text='Hello Zenity from a snap!'
+
+        --width=600
 
 plugs:
   desktop:
