@@ -32,21 +32,13 @@ plugs:
 parts:
   desktop-gtk3:
 
-  patches:
-    source: patches
-    plugin: dump
-    organize:
-      '*': patches/
-
   zenity:
-    after:
-    - patches
-
     source: https://gitlab.gnome.org/GNOME/zenity.git
     source-tag: 3.28.1
     source-depth: 1
     plugin: autotools
     configflags:
+    - --datarootdir=/snap/$SNAPCRAFT_PROJECT_NAME/current/share
     - --disable-libnotify
     - --disable-webkitgtk
     build-packages:
@@ -61,8 +53,7 @@ parts:
         -o errexit \
         -o nounset
 
-      patch \
-        --strip=1 \
-        < "${SNAPCRAFT_STAGE}"/patches/zenity-ui-snap-aware.patch
-
       snapcraftctl build
+
+    organize:
+      snap/$SNAPCRAFT_PROJECT_NAME/current: /
