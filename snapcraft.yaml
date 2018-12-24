@@ -24,7 +24,14 @@ apps:
       zenity
         --info
         --text='Hello Zenity from a snap!'
+        --width=600
 
+  obsoletion-notice:
+    command: >
+      desktop-launch
+      zenity
+        --warning
+        --text='This snap has now been <b>superseded</b> and will NOT receive any further updates!  Please remove this snap and install the \`_snap_name_\` snap as soon as possible!'
         --width=600
 
 plugs:
