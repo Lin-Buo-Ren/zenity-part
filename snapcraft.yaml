@@ -17,6 +17,7 @@ apps:
     command: >
       desktop-launch
       zenity
+
   greeting:
     command: >
       desktop-launch
